@@ -361,3 +361,89 @@ body {
     transition: 0.3s;
 }
 #scrollTopBtn:hover { background-color: #082d6b; transform: scale(1.1); }
+
+/* ================================================= */
+/* تحسينات الجوال (Mobile Responsiveness) */
+/* ================================================= */
+
+@media screen and (max-width: 768px) {
+    
+    /* 1. إصلاح القائمة العلوية (Navbar) */
+    .navbar {
+        flex-direction: column; /* جعل العناصر فوق بعضها */
+        height: auto; /* السماح للطول بالتمدد */
+        padding: 15px;
+    }
+
+    .nav-links {
+        flex-direction: column; /* الروابط فوق بعض */
+        width: 100%;
+        text-align: center;
+        margin-top: 15px;
+        gap: 10px; /* مسافة بين الروابط */
+        background: transparent; /* إزالة الخلفية البيضاء المتداخلة */
+    }
+
+    .nav-links li {
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.9); /* خلفية خفيفة للرابط */
+        padding: 8px;
+        border-radius: 8px;
+    }
+
+    .logo img {
+        height: 40px; /* تصغير اللوجو قليلاً */
+    }
+
+    /* إخفاء زر اللغة في الجوال مؤقتاً لتخفيف الزحمة (اختياري) */
+    .language-selector {
+        margin-top: 10px;
+    }
+
+    /* 2. إصلاح القسم الرئيسي (Hero Section) */
+    .hero-content h1 {
+        font-size: 2rem !important; /* تصغير العنوان الكبير */
+        line-height: 1.3;
+    }
+
+    .hero-content p {
+        font-size: 1rem !important;
+        padding: 0 10px;
+    }
+
+    .btn-primary {
+        width: 80%; /* الزر يأخذ عرض الشاشة */
+        text-align: center;
+    }
+
+    /* 3. إصلاح قسم من نحن (About) */
+    .about-logo-card img {
+        width: 100%; /* الصورة تأخذ عرض الشاشة */
+        height: auto;
+    }
+    
+    .grid-container {
+        grid-template-columns: 1fr; /* المميزات تظهر فوق بعض عمودياً */
+        gap: 15px;
+    }
+
+    /* 4. إصلاح كروت السيارات (Fleet) */
+    .cars-grid {
+        grid-template-columns: 1fr; /* سيارة واحدة في كل صف */
+        padding: 0 10px;
+    }
+
+    .search-grid {
+        grid-template-columns: 1fr; /* فلاتر البحث فوق بعض */
+    }
+
+    /* 5. إصلاح الفوتر (Footer) */
+    .footer-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .social-icons {
+        justify-content: center;
+    }
+}
