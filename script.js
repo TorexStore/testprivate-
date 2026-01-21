@@ -1,5 +1,5 @@
 // ============================================================
-// 1. إعدادات الربط (هنا نضع رابطك)
+// 1. إعدادات الربط (رابط Google Apps Script الخاص بك)
 // ============================================================
 const DATA_URL = "https://script.google.com/macros/s/AKfycbw7cYO6x_UmDDeD3PxrJ1hz0JUB3hzviboD2SF8WQYvcahAP87fagjkZDXlgZHNsjTm/exec";
 
@@ -7,7 +7,7 @@ const DATA_URL = "https://script.google.com/macros/s/AKfycbw7cYO6x_UmDDeD3PxrJ1h
 // 2. تشغيل الموقع عند التحميل
 // ============================================================
 document.addEventListener("DOMContentLoaded", () => {
-    // هذه الدالة هي التي تجلب البيانات من Google Sheets
+    // جلب البيانات وتشغيل الموقع
     fetchWebsiteData();
     
     initSlider();
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ============================================================
-// 3. جلب البيانات وتوزيعها
+// 3. جلب البيانات وتوزيعها (مع إخفاء شاشة التحميل)
 // ============================================================
 function fetchWebsiteData() {
     console.log("جاري الاتصال بـ Google Sheets...");
@@ -32,9 +32,25 @@ function fetchWebsiteData() {
         if(data.cars) renderFleet(data.cars);
         if(data.reviews) renderReviews(data.reviews);
         
-        filterCars(); // تحديث الفلتر ليعمل مع السيارات الجديدة
+        filterCars(); // تحديث الفلتر
+
+        // =================================================
+        // إخفاء شاشة التحميل بعد الانتهاء (الكود الجديد)
+        // =================================================
+        const loader = document.getElementById('loading-screen');
+        if(loader) {
+            // جعل الشفافية 0 (تأثير تلاشي)
+            loader.style.opacity = '0';
+            // إزالة العنصر تماماً بعد نصف ثانية
+            setTimeout(() => { loader.style.display = 'none'; }, 500);
+        }
     })
-    .catch(error => console.error("خطأ في الاتصال:", error));
+    .catch(error => {
+        console.error("خطأ في الاتصال:", error);
+        // إخفاء الشاشة حتى لو حدث خطأ، لكي يرى المستخدم الموقع
+        const loader = document.getElementById('loading-screen');
+        if(loader) loader.style.display = 'none';
+    });
 }
 
 // --- 1. تحديث الصفحة الرئيسية ---
@@ -88,10 +104,10 @@ function renderFleet(cars) {
         economy: document.querySelector('#group-economy .cars-grid')
     };
     
-    // مسح السيارات القديمة (أو الفارغة)
+    // مسح السيارات القديمة
     for (let k in groups) if(groups[k]) groups[k].innerHTML = '';
 
-    // إضافة السيارات الجديدة من الشيت
+    // إضافة السيارات الجديدة
     cars.forEach(car => {
         const container = groups[car.type];
         if (container) {
@@ -113,7 +129,7 @@ function renderFleet(cars) {
         }
     });
 
-    // تحديث رابط الحجز في السيارات الجديدة
+    // تحديث رابط الحجز للسيارات الجديدة
     fetch(DATA_URL).then(r=>r.json()).then(d=>{
          if(d.contact && d.contact.whatsapp_link) {
              document.querySelectorAll('.btn-book').forEach(b=>b.href=d.contact.whatsapp_link);
